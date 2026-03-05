@@ -1,0 +1,45 @@
+:root {
+  /* Colors */
+  --primary: #5271FF;
+  --primary-dark: #3F59E0;
+  --secondary: #6B7280;
+  
+  --bg-main: #F9FAFB;
+  --bg-card: #FFFFFF;
+  
+  --text-main: #111827;
+  --text-muted: #6B7280;
+  --text-light: #9CA3AF;
+  
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+  
+  --verified: #4ADE80;
+  --pending: #FB923C;
+
+  /* Elevations */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Typography */
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Nunito', var(--font-main);
+}
+
+[data-theme='dark'] {
+  --bg-main: #0B0E14;
+  --bg-card: #14181F;
+  --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --text-light: #6B7280;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+}

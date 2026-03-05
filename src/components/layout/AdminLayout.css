@@ -1,0 +1,170 @@
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-main {
+    flex: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-header {
+    height: 80px;
+    padding: 0 40px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+.header-search input {
+    width: 380px;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: var(--radius-md);
+    background: var(--bg-main);
+    border: 1px solid transparent;
+    outline: none;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.header-search input:focus {
+    border-color: var(--primary);
+    background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(82, 113, 255, 0.05);
+}
+
+.header-profile {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.notification-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.bell-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-main);
+    color: var(--text-muted);
+    transition: all 0.2s;
+    position: relative;
+}
+
+.bell-btn:hover {
+    background: white;
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #FF4D4D;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 2px solid var(--bg-card);
+}
+
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.profile-name {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+.profile-role {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.profile-avatar {
+    width: 44px;
+    height: 44px;
+    background: var(--primary);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-family: var(--font-display);
+}
+
+.admin-content {
+    padding: 40px;
+    background: var(--bg-main);
+    flex: 1;
+}
+
+.mobile-toggle {
+    display: none;
+    color: var(--text-main);
+}
+
+.mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 95;
+}
+
+@media (max-width: 1024px) {
+    .admin-main {
+        margin-left: 0;
+    }
+
+    .admin-header {
+        padding: 0 20px;
+    }
+
+    .mobile-toggle {
+        display: block;
+        margin-right: 15px;
+    }
+
+    .header-search {
+        display: none;
+        /* Hide wide search on mobile */
+    }
+
+    .admin-content {
+        padding: 24px 16px;
+    }
+
+    .profile-info {
+        display: none;
+        /* Hide text on mobile profiles */
+    }
+}

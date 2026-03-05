@@ -1,0 +1,130 @@
+.properties-page {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+
+
+.filter-group {
+    display: flex;
+    background: var(--bg-card);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--shadow-sm);
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    color: var(--primary);
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.table-container {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.properties-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    text-align: left;
+}
+
+.properties-table th {
+    padding: 16px 24px;
+    background: rgba(82, 113, 255, 0.02);
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--bg-main);
+}
+
+.properties-table td {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--bg-main);
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+.properties-table tr:last-child td {
+    border-bottom: none;
+}
+
+.properties-table tr:hover td {
+    background: rgba(82, 113, 255, 0.01);
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.action-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: var(--bg-main);
+}
+
+.action-btn.view {
+    color: var(--info);
+}
+
+.action-btn.verify {
+    color: var(--success);
+}
+
+.action-btn.reject {
+    color: var(--warning);
+}
+
+.action-btn.delete {
+    color: var(--error);
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+    background: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.table-loading,
+.table-empty {
+    text-align: center;
+    padding: 60px !important;
+    color: var(--text-light);
+    font-style: italic;
+}
