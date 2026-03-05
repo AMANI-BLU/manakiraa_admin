@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import { Menu, Bell } from 'lucide-react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, Bell, MessageSquare } from 'lucide-react';
 import { Sidebar } from './Sidebar';
 import { AnimatePresence } from 'framer-motion';
 import PageTransition from '../common/PageTransition';
 import { supabase } from '../../core/supabase';
+import Swal from 'sweetalert2';
 import { NotificationDropdown } from '../notifications/NotificationDropdown';
 import type { Notification } from '../notifications/NotificationDropdown';
 import './AdminLayout.css';
 
 const AdminLayout: React.FC = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [adminName, setAdminName] = useState('Admin User');
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const unreadCount = notifications.filter(n => !n.is_read).length;
 
@@ -27,6 +30,37 @@ const AdminLayout: React.FC = () => {
                     .eq('id', user.id)
                     .single();
                 if (data?.full_name) setAdminName(data.full_name);
+
+                // Fetch unread messages count
+                const { count } = await supabase
+                    .from('messages')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('receiver_id', user.id)
+                    .eq('is_read', false);
+
+                setUnreadMessagesCount(count || 0);
+
+                // Subscribe to message changes
+                const msgChannel = supabase
+                    .channel('unread-messages')
+                    .on('postgres_changes', {
+                        event: '*',
+                        schema: 'public',
+                        table: 'messages',
+                        filter: `receiver_id=eq.${user.id}`
+                    }, async () => {
+                        const { count: newCount } = await supabase
+                            .from('messages')
+                            .select('*', { count: 'exact', head: true })
+                            .eq('receiver_id', user.id)
+                            .eq('is_read', false);
+                        setUnreadMessagesCount(newCount || 0);
+                    })
+                    .subscribe();
+
+                return () => {
+                    supabase.removeChannel(msgChannel);
+                };
             }
         };
 
@@ -60,6 +94,51 @@ const AdminLayout: React.FC = () => {
         setNotifications(prev => prev.map(n => n.id === id ? { ...n, is_read: true } : n));
     };
 
+    const clearNotifications = async () => {
+        const result = await Swal.fire({
+            title: 'Clear all notifications?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--primary)',
+            cancelButtonColor: 'var(--error)',
+            confirmButtonText: 'Yes, clear all',
+            cancelButtonText: 'Cancel',
+            background: 'var(--bg-card)',
+            color: 'var(--text-main)'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                // Using .is('id', 'not', null) is a safer way to target all rows in Supabase logic
+                const { error } = await supabase.from('notifications').delete().not('id', 'is', null);
+
+                if (error) throw error;
+
+                setNotifications([]);
+                Swal.fire({
+                    title: 'Cleared!',
+                    text: 'Your notifications have been cleared.',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-main)'
+                });
+            } catch (error: any) {
+                console.error('Error clearing notifications:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message || 'Failed to clear notifications',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--primary)',
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-main)'
+                });
+            }
+        }
+    };
+
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
     return (
@@ -79,6 +158,10 @@ const AdminLayout: React.FC = () => {
                     </div>
                     <div className="header-profile">
                         <div className="notification-container">
+                            <button className="bell-btn" onClick={() => navigate('/messages')} style={{ marginRight: '10px' }}>
+                                <MessageSquare size={20} />
+                                {unreadMessagesCount > 0 && <span className="notification-badge">{unreadMessagesCount}</span>}
+                            </button>
                             <button className="bell-btn" onClick={() => setIsNotificationOpen(!isNotificationOpen)}>
                                 <Bell size={20} />
                                 {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
@@ -88,6 +171,7 @@ const AdminLayout: React.FC = () => {
                                     notifications={notifications}
                                     onClose={() => setIsNotificationOpen(false)}
                                     onMarkAsRead={markAsRead}
+                                    onClearAll={clearNotifications}
                                 />
                             )}
                         </div>
@@ -98,7 +182,7 @@ const AdminLayout: React.FC = () => {
                         <div className="profile-avatar">{adminName.charAt(0)}</div>
                     </div>
                 </header>
-                <section className="admin-content">
+                <section className={`admin-content ${location.pathname === '/messages' ? 'no-padding' : ''}`}>
                     <AnimatePresence mode="wait">
                         <PageTransition key={location.pathname}>
                             <Outlet />

@@ -147,7 +147,6 @@ const Dashboard: React.FC = () => {
                     <h1>Dashboard Overview</h1>
                     <p>Monitoring ManaKiraa platform activity and growth.</p>
                 </div>
-                <button className="refresh-btn" onClick={fetchStats}>Refresh Data</button>
             </header>
 
             <div className="stats-grid">
@@ -199,11 +198,11 @@ const Dashboard: React.FC = () => {
                                     >
                                         <div className={`activity-dot ${activity.type === 'user' ? 'bg-blue' : 'bg-green'}`}></div>
                                         <div className="activity-info">
-                                            <p className="activity-title">{activity.title}</p>
-                                            <p className="activity-subtitle">{activity.subtitle}</p>
+                                            <p className="activity-title">{activity.title || 'Untitled Activity'}</p>
+                                            <p className="activity-subtitle">{activity.subtitle || ''}</p>
                                         </div>
                                         <span className="activity-time">
-                                            {new Date(activity.timestamp).toLocaleDateString()}
+                                            {activity.timestamp ? new Date(activity.timestamp).toLocaleDateString() : 'Unknown date'}
                                         </span>
                                     </div>
                                 ))

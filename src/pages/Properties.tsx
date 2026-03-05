@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Search, CheckCircle, XCircle, Eye, Trash2 } from 'lucide-react';
+import { Search, CheckCircle, XCircle, Eye, Trash2, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import type { Variants } from 'framer-motion';
 import { supabase } from '../core/supabase';
 import { Badge } from '../components/ui/Badge';
@@ -40,6 +41,7 @@ interface Property {
 }
 
 const Properties: React.FC = () => {
+    const navigate = useNavigate();
     const [properties, setProperties] = useState<Property[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -123,8 +125,10 @@ const Properties: React.FC = () => {
     };
 
     const filteredProperties = properties.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            p.location.toLowerCase().includes(searchTerm.toLowerCase());
+        const name = p.name || '';
+        const location = p.location || '';
+        const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            location.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesFilter = filter === 'all' || p.verification_status === filter;
         return matchesSearch && matchesFilter;
     });
@@ -139,6 +143,12 @@ const Properties: React.FC = () => {
                     <h1>Property Management</h1>
                     <p>Review listings, verify documents, and manage platform content.</p>
                 </motion.div>
+                <div className="header-actions">
+                    <button className="add-property-btn" onClick={() => navigate('/properties/add')}>
+                        <Plus size={20} />
+                        <span>Add New Property</span>
+                    </button>
+                </div>
             </header>
 
             <motion.div
@@ -213,9 +223,9 @@ const Properties: React.FC = () => {
                                         exit={{ opacity: 0, x: 20 }}
                                         layout
                                     >
-                                        <td className="font-bold">{property.name}</td>
-                                        <td>{property.location}</td>
-                                        <td>{property.price.toLocaleString()}</td>
+                                        <td className="font-bold">{property.name || 'Unnamed Property'}</td>
+                                        <td>{property.location || 'Unknown Location'}</td>
+                                        <td>{(property.price || 0).toLocaleString()}</td>
                                         <td>
                                             <Badge variant={property.verification_status as any}>
                                                 {property.verification_status}

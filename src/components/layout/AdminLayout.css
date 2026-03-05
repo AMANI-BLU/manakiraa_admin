@@ -127,6 +127,10 @@
     flex: 1;
 }
 
+.admin-content.no-padding {
+    padding: 0;
+}
+
 .mobile-toggle {
     display: none;
     color: var(--text-main);

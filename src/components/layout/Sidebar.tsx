@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Home, Users, CheckCircle, Settings, LogOut, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, Home, Users, CheckCircle, Settings, LogOut, TrendingUp, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { supabase } from '../../core/supabase';
 import './Sidebar.css';
@@ -18,6 +18,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const navItems = [
         { to: '/', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
         { to: '/properties', icon: <Home size={20} />, label: 'Properties' },
+        { to: '/messages', icon: <MessageSquare size={20} />, label: 'Messages' },
         { to: '/verifications', icon: <CheckCircle size={20} />, label: 'Verifications' },
         { to: '/users', icon: <Users size={20} />, label: 'Users' },
         { to: '/reports', icon: <TrendingUp size={20} />, label: 'Reports' },

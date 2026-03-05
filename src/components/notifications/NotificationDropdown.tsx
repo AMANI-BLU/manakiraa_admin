@@ -28,10 +28,16 @@ interface Props {
     notifications: Notification[];
     onClose: () => void;
     onMarkAsRead: (id: string) => void;
+    onClearAll: () => void;
 }
 
-export const NotificationDropdown: React.FC<Props> = ({ notifications, onClose, onMarkAsRead }) => {
+export const NotificationDropdown: React.FC<Props> = ({ notifications, onClose, onMarkAsRead, onClearAll }) => {
     const navigate = useNavigate();
+
+    const handleClearAll = () => {
+        // Confirmation is handled here or in parent
+        onClearAll();
+    };
 
     const getIcon = (type: string) => {
         switch (type) {
@@ -53,9 +59,11 @@ export const NotificationDropdown: React.FC<Props> = ({ notifications, onClose, 
         <div className="notification-dropdown glass">
             <div className="dropdown-header">
                 <h3>Notifications</h3>
-                <span className="unread-count">
-                    {notifications.filter(n => !n.is_read).length} Unread
-                </span>
+                {notifications.length > 0 && (
+                    <button className="clear-all-btn" onClick={handleClearAll}>
+                        Clear All
+                    </button>
+                )}
             </div>
 
             <div className="notification-list">
