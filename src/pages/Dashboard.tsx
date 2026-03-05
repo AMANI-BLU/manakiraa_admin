@@ -216,7 +216,9 @@ const Dashboard: React.FC = () => {
 
                 <div className="dashboard-sidebar">
                     <div className="dashboard-card quick-actions">
-                        <h3>Quick Actions</h3>
+                        <div className="card-header">
+                            <h3>Quick Actions</h3>
+                        </div>
                         <div className="actions-list">
                             <button className="action-item" onClick={() => navigate('/properties')}>
                                 <ClipboardCheck size={18} />

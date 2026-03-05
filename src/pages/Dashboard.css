@@ -251,8 +251,7 @@
     background: white;
     border-color: var(--primary);
     color: var(--primary);
-    transform: translateX(4px);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
 }
 
 .text-muted {
