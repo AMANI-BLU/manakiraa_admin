@@ -368,9 +368,6 @@ const Messages: React.FC = () => {
                                                 </div>
                                             )}
                                             <div className={`message-wrapper ${isMe ? 'me' : 'other'} ${activeMenuMessageId === msg.id ? 'menu-open' : ''}`}>
-                                                {!isMe && (
-                                                    <img src={selectedConv?.other_user_avatar} alt="" className="message-avatar" />
-                                                )}
                                                 <div className="message-bubble-container">
                                                     <div className="message-bubble">
                                                         {editingMessageId === msg.id ? (

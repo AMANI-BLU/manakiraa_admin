@@ -298,24 +298,8 @@
     border-radius: 10px;
 }
 
-.message-wrapper {
-    display: flex;
-    width: 100%;
-    gap: 12px;
-    align-items: flex-end;
-}
-
 .message-wrapper.me {
     justify-content: flex-end;
-}
-
-.message-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
-    flex-shrink: 0;
-    margin-bottom: 4px;
-    object-fit: cover;
 }
 
 .message-bubble {
@@ -867,12 +851,6 @@
 
     .message-bubble-container {
         max-width: 90%;
-    }
-
-    .message-avatar {
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
     }
 
     .message-input-container {
