@@ -1,33 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Home, ClipboardCheck, TrendingUp } from 'lucide-react';
-import { motion } from 'framer-motion';
-import type { Variants } from 'framer-motion';
+import { createClient } from '@supabase/supabase-js';
 import { supabase } from '../core/supabase';
 import './Dashboard.css';
-
-// Animation variants
-const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1
-        }
-    }
-};
-
-const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.5,
-            ease: "easeOut"
-        }
-    }
-};
 
 interface Stats {
     totalUsers: number;
@@ -79,14 +55,9 @@ const Dashboard: React.FC = () => {
         growthRate: '0%'
     });
     const [activities, setActivities] = useState<Activity[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
     const fetchStats = async () => {
         try {
-            setLoading(true);
-            setError(null);
-
             // 1. Fetch Basic Totals
             const [profilesRes, propertiesRes, pendingRes] = await Promise.all([
                 supabase.from('profiles').select('email', { count: 'exact', head: true }),
@@ -163,9 +134,6 @@ const Dashboard: React.FC = () => {
             setActivities(combinedActivity);
         } catch (err: any) {
             console.error('Error fetching dashboard stats:', err);
-            setError(err.message || 'Failed to load platform data');
-        } finally {
-            setLoading(false);
         }
     };
 
