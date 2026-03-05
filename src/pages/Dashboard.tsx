@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Home, ClipboardCheck, TrendingUp } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
 import { supabase } from '../core/supabase';
 import './Dashboard.css';
 
