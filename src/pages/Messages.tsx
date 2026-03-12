@@ -402,12 +402,6 @@ const Messages: React.FC = () => {
                                             )}
                                             <div className={`message-wrapper ${isMe ? 'me' : 'other'} ${activeMenuMessageId === msg.id ? 'menu-open' : ''}`}>
                                                 <div className="message-bubble-container">
-                                                    {isMe && (
-                                                        <div className="sender-info admin-identity">
-                                                            <span className="sender-name">Mana Kira</span>
-                                                            <Check size={12} className="verified-badge-inline" />
-                                                        </div>
-                                                    )}
                                                     <div className="message-bubble">
                                                         {editingMessageId === msg.id ? (
                                                             <div className="edit-message-ui">
