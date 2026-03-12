@@ -49,7 +49,16 @@ const Messages: React.FC = () => {
             const { data: { user } } = await supabase.auth.getUser();
             if (user) {
                 setAdminId(user.id);
-                fetchConversations(user.id);
+                await fetchConversations(user.id);
+
+                // Check for UID in URL to auto-select a user
+                const urlParams = new URLSearchParams(window.location.search);
+                const uid = urlParams.get('uid');
+                if (uid) {
+                    setSelectedUserId(uid);
+                    // Remove param from URL without reload
+                    window.history.replaceState({}, '', window.location.pathname);
+                }
             }
         };
 
@@ -161,6 +170,30 @@ const Messages: React.FC = () => {
                             conv.other_user_name = p.full_name || 'User';
                             conv.other_user_avatar = p.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(conv.other_user_name)}&background=random`;
                         }
+                    });
+                }
+            }
+
+            // If a selectedUserId was passed via URL but doesn't have a conversation yet,
+            // we need to fetch their profile and add a temporary conversation item?
+            // Or just rely on fetchMessages which will work if they exist.
+            const urlParams = new URLSearchParams(window.location.search);
+            const uid = urlParams.get('uid');
+            if (uid && !convArray.some(c => c.other_user_id === uid)) {
+                const { data: p } = await supabase
+                    .from('profiles')
+                    .select('id, full_name, avatar_url')
+                    .eq('id', uid)
+                    .single();
+
+                if (p) {
+                    convArray.unshift({
+                        other_user_id: p.id,
+                        other_user_name: p.full_name || 'User',
+                        other_user_avatar: p.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.full_name || 'User')}&background=random`,
+                        last_message: 'Start a new conversation',
+                        last_message_time: new Date().toISOString(),
+                        unread_count: 0
                     });
                 }
             }
@@ -369,6 +402,12 @@ const Messages: React.FC = () => {
                                             )}
                                             <div className={`message-wrapper ${isMe ? 'me' : 'other'} ${activeMenuMessageId === msg.id ? 'menu-open' : ''}`}>
                                                 <div className="message-bubble-container">
+                                                    {isMe && (
+                                                        <div className="sender-info admin-identity">
+                                                            <span className="sender-name">Mana Kira</span>
+                                                            <Check size={12} className="verified-badge-inline" />
+                                                        </div>
+                                                    )}
                                                     <div className="message-bubble">
                                                         {editingMessageId === msg.id ? (
                                                             <div className="edit-message-ui">

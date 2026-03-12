@@ -324,6 +324,34 @@
     word-break: normal;
 }
 
+.sender-info.admin-identity {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 4px;
+    padding: 0 4px;
+}
+
+.sender-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--chat-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.verified-badge-inline {
+    color: #5271FF;
+    fill: #5271FF;
+    background: white;
+    border-radius: 50%;
+    padding: 1px;
+}
+
+[data-theme='dark'] .verified-badge-inline {
+    background: transparent;
+}
+
 .message-bubble-container {
     display: flex;
     align-items: flex-end;

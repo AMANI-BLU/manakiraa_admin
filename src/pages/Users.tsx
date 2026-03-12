@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Mail, Phone, Calendar, User as UserIcon, UserPlus, UserMinus, Trash2 } from 'lucide-react';
+import { Search, Mail, Phone, Calendar, User as UserIcon, UserPlus, UserMinus, Trash2, MessageSquare } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { supabase } from '../core/supabase';
@@ -40,6 +41,7 @@ interface Profile {
 }
 
 const Users: React.FC = () => {
+    const navigate = useNavigate();
     const [users, setUsers] = useState<Profile[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -214,6 +216,13 @@ const Users: React.FC = () => {
                                     </div>
 
                                     <div className="user-actions">
+                                        <button
+                                            className="action-btn message"
+                                            onClick={() => navigate(`/messages?uid=${user.id}`)}
+                                            title="Message User"
+                                        >
+                                            <MessageSquare size={16} />
+                                        </button>
                                         <button
                                             className={`action-btn ${user.is_active === false ? 'activate' : 'deactivate'}`}
                                             onClick={() => handleStatusToggle(user.id, user.is_active ?? true, user.full_name)}
