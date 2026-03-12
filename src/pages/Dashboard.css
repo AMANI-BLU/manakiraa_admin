@@ -96,25 +96,65 @@
 .stat-info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    flex: 1;
 }
 
 .stat-title {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-muted);
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value-container {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
 }
 
 .stat-value {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 800;
     color: var(--text-main);
-    margin: 4px 0;
+    margin: 2px 0;
+    line-height: 1;
 }
 
 .stat-trend {
     font-size: 12px;
     font-weight: 600;
     color: var(--text-muted);
+}
+
+.stat-trend.action-badge {
+    background: #FFF7ED;
+    color: #EA580C;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    border: 1px solid #FFEDD5;
+    animation: action-pulse 2s infinite;
+}
+
+@keyframes action-pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.stat-card.is-action {
+    border-color: #FED7AA;
+    background: linear-gradient(to right, var(--bg-card), #FFFBF7);
 }
 
 /* Dashboard Content Layout */

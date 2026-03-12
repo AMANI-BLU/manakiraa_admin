@@ -31,14 +31,16 @@ interface StatCardProps {
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon, trend, color, isAction }) => {
     return (
-        <div className={`stat-card ${isAction ? 'pulse' : ''}`}>
+        <div className={`stat-card ${isAction ? 'is-action' : ''}`}>
             <div className={`stat-icon ${color}`}>
                 {icon}
             </div>
             <div className="stat-info">
                 <span className="stat-title">{title}</span>
-                <span className="stat-value">{value}</span>
-                <span className="stat-trend">{trend}</span>
+                <div className="stat-value-container">
+                    <span className="stat-value">{value}</span>
+                    <span className={`stat-trend ${isAction ? 'action-badge' : ''}`}>{trend}</span>
+                </div>
             </div>
         </div>
     );
@@ -168,7 +170,7 @@ const Dashboard: React.FC = () => {
                     title="Pending"
                     value={stats.pendingVerifications}
                     icon={<ClipboardCheck size={24} />}
-                    trend="Action required"
+                    trend={stats.pendingVerifications > 0 ? "Action required" : "All caught up"}
                     color="orange"
                     isAction={stats.pendingVerifications > 0}
                 />

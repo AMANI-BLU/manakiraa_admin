@@ -38,6 +38,7 @@ interface Property {
     verification_status: string;
     verification_document_url: string | null;
     created_at: string;
+    user_id: string;
 }
 
 const Properties: React.FC = () => {
@@ -80,6 +81,33 @@ const Properties: React.FC = () => {
                 .eq('id', id);
 
             if (updateError) throw updateError;
+
+            // Send notification message to user
+            try {
+                const { data: propertyData } = await supabase
+                    .from('properties')
+                    .select('user_id, name')
+                    .eq('id', id)
+                    .single();
+
+                if (propertyData) {
+                    const message = status === 'verified'
+                        ? `Congratulations! Your property "${propertyData.name}" has been verified and is now live.`
+                        : `Your property "${propertyData.name}" verification was not successful. Please review your documents and try again.`;
+
+                    const senderResponse = await supabase.auth.getUser();
+                    const senderId = senderResponse.data.user?.id;
+
+                    await supabase.from('messages').insert({
+                        sender_id: senderId,
+                        receiver_id: propertyData.user_id,
+                        content: message,
+                        is_read: false
+                    });
+                }
+            } catch (notifyError) {
+                console.error('Error sending notification:', notifyError);
+            }
 
             Swal.fire({
                 title: status === 'verified' ? 'Verified!' : 'Rejected',
