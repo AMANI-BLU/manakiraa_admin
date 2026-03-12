@@ -87,4 +87,3 @@ This project is private and intended for the ManaKiraa platform administration.
 
 ---
 
-Built with ❤️ by the ManaKiraa Team.
