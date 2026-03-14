@@ -58,7 +58,7 @@ const Verifications: React.FC = () => {
             try {
                 const { data: propertyData } = await supabase
                     .from('properties')
-                    .select('user_id, name')
+                    .select('id, user_id, name')
                     .eq('id', id)
                     .single();
 
@@ -73,6 +73,7 @@ const Verifications: React.FC = () => {
                     await supabase.from('messages').insert({
                         sender_id: senderId,
                         receiver_id: propertyData.user_id,
+                        property_id: propertyData.id,
                         content: message,
                         is_read: false
                     });
