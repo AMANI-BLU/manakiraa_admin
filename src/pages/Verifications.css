@@ -46,6 +46,24 @@
     color: var(--text-muted);
 }
 
+.document-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.preview-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.preview-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
 .id-image-container {
     width: 100%;
     aspect-ratio: 16 / 9;

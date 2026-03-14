@@ -12,6 +12,7 @@ interface Property {
     price: number;
     verification_status: string;
     verification_document_url: string | null;
+    image_url: string | null;
     created_at: string;
     user_id: string;
 }
@@ -133,18 +134,36 @@ const Verifications: React.FC = () => {
                                     <p>{property.location}</p>
                                 </div>
 
-                                <div className="document-preview">
-                                    {property.verification_document_url ? (
-                                        <div className="id-image-container" onClick={() => window.open(property.verification_document_url!, '_blank')}>
-                                            <img src={property.verification_document_url} alt="National ID" />
-                                            <div className="overlay">
-                                                <Eye size={20} />
-                                                <span>Click to Expand</span>
+                                <div className="document-preview-grid">
+                                    <div className="preview-section">
+                                        <span className="preview-label">Property Photo</span>
+                                        {property.image_url ? (
+                                            <div className="id-image-container" onClick={() => window.open(property.image_url!, '_blank')}>
+                                                <img src={property.image_url} alt="Property" />
+                                                <div className="overlay">
+                                                    <Eye size={20} />
+                                                    <span>View</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ) : (
-                                        <div className="no-document">No document uploaded</div>
-                                    )}
+                                        ) : (
+                                            <div className="no-document">No photo</div>
+                                        )}
+                                    </div>
+
+                                    <div className="preview-section">
+                                        <span className="preview-label">ID Document</span>
+                                        {property.verification_document_url ? (
+                                            <div className="id-image-container" onClick={() => window.open(property.verification_document_url!, '_blank')}>
+                                                <img src={property.verification_document_url} alt="National ID" />
+                                                <div className="overlay">
+                                                    <Eye size={20} />
+                                                    <span>View</span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="no-document">No document</div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div className="card-actions">
