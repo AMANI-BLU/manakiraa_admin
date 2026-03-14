@@ -141,6 +141,32 @@
     font-weight: 700;
 }
 
+.property-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.property-thumbnail {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--bg-main);
+    border: 1px solid var(--shadow-sm);
+}
+
+.property-thumbnail.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-muted);
+    background: rgba(82, 113, 255, 0.05);
+    text-align: center;
+    padding: 4px;
+}
+
 .action-btns {
     display: flex;
     gap: 8px;

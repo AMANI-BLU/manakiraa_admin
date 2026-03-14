@@ -37,6 +37,7 @@ interface Property {
     price: number;
     verification_status: string;
     verification_document_url: string | null;
+    image_url: string | null;
     created_at: string;
     user_id: string;
 }
@@ -251,7 +252,14 @@ const Properties: React.FC = () => {
                                         exit={{ opacity: 0, x: 20 }}
                                         layout
                                     >
-                                        <td className="font-bold">{property.name || 'Unnamed Property'}</td>
+                                        <td className="property-name-cell">
+                                            {property.image_url ? (
+                                                <img src={property.image_url} alt={property.name} className="property-thumbnail" />
+                                            ) : (
+                                                <div className="property-thumbnail placeholder">No Image</div>
+                                            )}
+                                            <span className="font-bold">{property.name || 'Unnamed Property'}</span>
+                                        </td>
                                         <td>{property.location || 'Unknown Location'}</td>
                                         <td>{(property.price || 0).toLocaleString()}</td>
                                         <td>
